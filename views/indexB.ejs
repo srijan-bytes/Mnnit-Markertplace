@@ -1,0 +1,71 @@
+<%- include("partials/headerB") -%>
+<!-- Main Home Page of the User-->
+
+<section id="title">
+  <div class="row container-fluid">
+    <div class="col-lg-7">
+      <h1 class="heading" >Welcome <%=name%>, to Next Innovation </h1>
+      <button type="button" class="btn btn-light btn-lg button"><a href="/items" style="color:#000"><i class="fas fa-sign-in-alt"></i> Buy Books</a></button>
+      <button type="button" class="btn btn-outline-dark btn-lg button"><a href="/add/<%=user%>" style="color:#fff"><i class="fas fa-sign-in-alt"></i> Sell Books</a></button>
+
+    </div>
+  </div>
+</section>
+
+<section id="features">
+
+  <div class="row">
+    <div class="feature-box col-lg-4">
+      <i class="icon fas fa-book fa-4x"></i>
+      <h3><strong>Buy & Sell Books.</strong></h3>
+      <p>Buy books or anything you want and sell which you don't in-campus.</p>
+
+    </div>
+    <div class="feature-box col-lg-4">
+      <i class="icon fas fa-user-clock fa-4x"></i>
+      <h3><strong>Save money & time.</strong></h3>
+      <p>No need to wait for your delivery.</p>
+
+    </div>
+    <div class="feature-box col-lg-4">
+      <i class=" icon fas fa-info-circle fa-4x"></i>
+      <h3><strong>Get book info.</strong></h3>
+      <p>Get to know which books you need for ur course.</p>
+
+    </div>
+  </div>
+
+</section>
+<section id="about-us">
+  <div id="carouselExampleIndicators" class="carousel slide " data-ride="carousel" data-pause="hover" data-interval="2000">
+    <ol class="carousel-indicators">
+      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+    </ol>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <h1>Sreemoyee Basu</h1>
+      </div>
+      <div class="carousel-item">
+        <h1>Arushi Agarwal</h1>
+      </div>
+      <div class="carousel-item">
+        <h1>Samiksha Sharma</h1>
+      </div>
+      <div class="carousel-item">
+        <h1>Simran Lamba</h1>
+      </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</section>
+<%- include("partials/footer") -%>

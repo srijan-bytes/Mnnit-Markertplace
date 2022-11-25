@@ -1,0 +1,44 @@
+<%- include("partials/headerB") -%>
+<!-- form of other product -->
+<section id="title">
+  <div class="row container-fluid">
+
+
+    <div class="col-lg-6">
+      <h1 class="heading" > Fill in the Details </h1>
+      <h6> Want to put up books for sale? <a href="/additem/<%=user%>">Click Here!</a> </h6>
+    </div>
+    <div class="col-lg-6">
+
+      <form action="/addother/<%=user%>" method="post">
+        <div class="form-group ">
+          <div class="label">Product Name</div>
+          <input class="form-control" type="text" name="pname" placeholder="Product name">
+          <div class="label">Selling Price</div>
+          <input class="form-control" type="text" name="sellp" placeholder="In Rs.">
+          <div class="label">Your Name</div>
+          <input class="form-control" type="text" name="name" placeholder="Millie Bobby Brown">
+          <div class="label">ProductDetails:</div>
+          <input class="form-control" type="text" name="brand" placeholder="brand if applicable">
+          <input class="form-control" type="text" name="year" placeholder="Year of buying">
+          <input class="form-control" type="text" name="condition" placeholder="Condition">
+          <input class="form-control" type="text" name="others" placeholder="Any other information">
+          <div class="label">Your Contact Info</div>
+          <input class="form-control" type="text" name="phone" placeholder="Phone No.">
+          <input class="form-control" type="text" name="email" placeholder="Email Id">
+          <input class="form-control" type="text" name="hostel" placeholder="Hostel name">
+          <input class="form-control" type="text" name="room" placeholder="Room no.">
+          <textarea class="form-control" name="time" >Please contact me between (add preferable time) using (add preferable mode). </textarea>
+          <button class="btn btn-dark" type="submit" name="button" onclick="add()">Add</button>
+        </div>
+
+      </form>
+    </div>
+    <script>
+      function add() {
+        alert("Item Added! Thank You!");
+      }
+    </script>
+
+</section>
+<%- include("partials/footer") -%>

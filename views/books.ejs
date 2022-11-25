@@ -1,0 +1,28 @@
+<%- include("partials/header") -%>
+<!-- box of books -->
+<section id="pricing" class="container-fluid">
+  <h2>Books</h2>
+  <h4>Not looking for books? <a href="/others" style="color:#11999e">Click Here!</a></h4>
+  <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum..</p> -->
+  <div class="row">
+      <%newBookItems.forEach(function(book){%>
+    <div class="pricing-column col-lg-4 col-md-6">
+      <div class="card ">
+        <div class="card-header">
+          <h3><%=book.bookname%></h3>
+        </div>
+        <div class="card-body">
+          <h2>Rs. <%=book.sellp%> </h2>
+          <p>Seller Name: <%=book.name%></p>
+          <button type="button" class="btn btn-outline-dark"><a href="/bookd/<%=book._id%>" class="know">Know More</a></button>
+        </div>
+      </div>
+    </div>
+    <%});%>
+  </div>
+
+
+
+
+</section>
+<%- include("partials/footer") -%>>

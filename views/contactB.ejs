@@ -1,0 +1,42 @@
+<%- include("partials/headerB") -%>
+
+<!-- contact us -->
+<section id="title">
+  <div class="row container-fluid">
+
+    <div class="col-lg-6">
+      <h1 class="heading ">Contact Form</h1>
+      <h6>Connect with us by sending your reviews, problems and suggestions.</h6>
+    </div>
+    <div class="col-lg-6">
+      <form action="/contact/<%=user%>" method="post">
+        <div class="label">Name</div>
+        <input class="form-control" type="text" name="name" placeholder="John">
+
+        <div class="label">E-Mail</div>
+        <input class="form-control" type="text" name="email" placeholder="john2020@gmail.com">
+
+
+        <div class="label">Phone No.</div>
+        <input class="form-control" type="text" name="phone" placeholder="1234567890">
+
+
+
+        <div class="label">Subject</div>
+        <input class="form-control" name="subject" type="text">
+
+
+        <div class="label">Message</div>
+        <textarea class="form-control" name="message"></textarea>
+
+        <button class="btn btn-dark" type="submit" name="button" onclick="save()">Send</button>
+      </form>
+    </div>
+    <script>
+      function save() {
+        alert("Mail Received! Thank you!")
+      }
+    </script>
+</section>
+
+<%- include("partials/footer") -%>

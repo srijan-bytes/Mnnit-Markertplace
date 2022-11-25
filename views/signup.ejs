@@ -1,0 +1,32 @@
+<%- include("partials/header") -%>
+<!-- sign up page -->
+  <section id="title">
+    <div class="row container-fluid">
+      <div class="col-lg-6 " >
+        <h1 class="heading">Sign Up </h1>
+        <h6>
+          login or register from here.
+        </h6>
+        <h6>
+        the page will refresh if username is already taken or the password and confirm password are not same</h6>
+      </div>
+      <div class="col-lg-6 firsthalf">
+        <form action="/signup" method="post">
+        <div class="label">UserName</div>
+          <input class="form-control" type="text" name="username" placeholder="john.william05" />
+          <div class="label">Full Name</div>
+          <input class="form-control" type="text" name="fullname" placeholder="John William" />
+          <div class="label">Password</div>
+          <input class="form-control" type="password" name="password" placeholder="Password" />
+          <div class="label">Confirm Password</div>
+          <input class="form-control" type="password" name="cpassword" placeholder="Confirm Password" />
+          <div class="label">Email Id</div>
+          <input class="form-control" type="text" name="email" placeholder="Email Address" />
+          <button class="btn btn-dark btn-lg" type="submit" name="button">Sign Up</button>
+        <br /><br /><br /><br /><br /><br />
+          Already have a account? <a href="/login" style="font-family: 'Play',sans-serif;">Log In </a>
+        </form>
+      </div>
+
+  </section>
+  <%- include("partials/footer") -%>
