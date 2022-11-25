@@ -1,4 +1,4 @@
-# MNNIT MARKETPLACE
+# MNNIT
 Please install these modules or check the dependencies:
 1. express
 2. body-parser
