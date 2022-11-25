@@ -27,22 +27,6 @@ app.get("/", function(req, res) {
 });
 
 //Schemas Uesd - books,items,mails,users.
-const booksSchema = new mongoose.Schema({
-  bookname: String,
-  sellp: Number,
-  name: String,
-  subject: String,
-  year: String,
-  condition: String,
-  edition: String,
-  phone: String,
-  email: String,
-  time: String,
-  hostel: String,
-  room: String
-});
-
-const Book = mongoose.model("Book", booksSchema);
 const itemsSchema = new mongoose.Schema({
   pname: String,
   sellp: Number,
@@ -75,7 +59,6 @@ const usersSchema = new mongoose.Schema({
   fullname: String,
   password: String,
   email: String,
-  books: [booksSchema],
   items: [itemsSchema]
 });
 
@@ -149,57 +132,8 @@ app.get("/index/:user", function(req, res) {
   });
 });
 
-
-//the buy page: shows all the books available
-app.get("/books", function(req, res) {
-  Book.find({}, function(err, foundBooks) {
-
-    if (foundBooks.length === 0) {
-      console.log("No Books Added");
-      res.redirect("/");
-    } else {
-      Book.find({}, null, { //to sort alphabetically
-        sort: {
-          bookname: 1
-        }
-      }, function(err, foundBooks) {
-        if (!err) {
-          res.render("books", {
-
-            newBookItems: foundBooks
-          });
-        }
-      });
-    }
-  });
-});
-
-//the buy page after signing up: shows all the books available
-app.get("/books/:user", function(req, res) {
-  Book.find({}, function(err, foundBooks) {
-
-    if (foundBooks.length === 0) {
-      console.log("No Books Added");
-      res.redirect("/");
-    } else {
-      Book.find({}, null, { //to sort alphabetically
-        sort: {
-          bookname: 1
-        }
-      }, function(err, foundBooks) {
-        if (!err) {
-          res.render("booksB", {
-            user: req.params.user,
-            newBookItems: foundBooks
-          });
-        }
-      });
-    }
-  });
-});
-
-//the other products buy page: show all the products except books
-app.get("/others", function(req, res) {
+//the products buy page: show all the products
+app.get("/products", function(req, res) {
   Item.find({}, function(err, foundItems) {
 
     if (foundItems.length === 0) {
@@ -212,8 +146,7 @@ app.get("/others", function(req, res) {
         }
       }, function(err, foundItems) {
         if (!err) {
-          res.render("others", {
-
+          res.render("products", {
             newItems: foundItems
           });
         }
@@ -222,8 +155,8 @@ app.get("/others", function(req, res) {
   });
 });
 
-//the other products buy page after signing up: show all the products except books
-app.get("/others/:user", function(req, res) {
+//the products buy page after signing up: show all the products
+app.get("/products/:user", function(req, res) {
   Item.find({}, function(err, foundItems) {
 
     if (foundItems.length === 0) {
@@ -236,7 +169,7 @@ app.get("/others/:user", function(req, res) {
         }
       }, function(err, foundItems) {
         if (!err) {
-          res.render("othersB", {
+          res.render("productsB", {
             user: req.params.user,
             newItems: foundItems
           });
@@ -255,43 +188,14 @@ app.get("/dashboard/:user", function(req, res) {
     if (!err) {
       res.render("dashboard", {
         user: user,
-        newBookItems: foundUser.books,
         newItems: foundUser.items
       });
     }
   });
 });
 
-//this deletes books
+//this deletes the products
 app.post("/delete/:user", function(req, res) {
-  const checkedItemId = req.body.checkbox;
-  const user = req.params.user;
-
-  Book.findByIdAndRemove(checkedItemId, function(err) {
-    if (!err) {
-      console.log("Success");
-    } else {
-      console.log("Fail");
-    }
-  });
-  User.findOneAndUpdate({
-      username: user
-    }, {
-      $pull: {
-        books: {
-          _id: checkedItemId
-        }
-      }
-    },
-    function(err, foundList) {
-      if (!err) {
-        res.redirect("/dashboard/" + user);
-      }
-    });
-});
-
-//this deletes the other products
-app.post("/deleteo/:user", function(req, res) {
   const checkedItemId = req.body.checkbox;
   const user = req.params.user;
 
@@ -318,21 +222,21 @@ app.post("/deleteo/:user", function(req, res) {
     });
 });
 
-//this is the add page for other products
-app.get("/addother/:user", function(req, res) {
+//this is the add page for products
+app.get("/addproduct/:user", function(req, res) {
   const user = req.params.user;
   User.findOne({
     username: user
   }, function(err, foundUser) {
     if (!err) {
-      res.render("addother", {
+      res.render("addproduct", {
         user: foundUser.username
       });
     }
   });
 });
 
-app.post("/addother/:user", function(req, res) {
+app.post("/addproduct/:user", function(req, res) {
   const user = req.params.user;
   const item = new Item({
     pname: req.body.pname,
@@ -358,112 +262,14 @@ app.post("/addother/:user", function(req, res) {
   });
 });
 
-//this is the add page for the books
-app.get("/additem/:user", function(req, res) {
-  const user = req.params.user;
-  User.findOne({
-    username: user
-  }, function(err, foundUser) {
-    if (!err) {
-      res.render("additem", {
-        user: foundUser.username
-      });
-    }
-  });
-});
-
-app.post("/additem/:user", function(req, res) {
-  const user = req.params.user;
-  const book = new Book({
-    bookname: req.body.bookname,
-    sellp: req.body.sellp,
-    name: req.body.name,
-    subject: req.body.subject,
-    year: req.body.year,
-    condition: req.body.condition,
-    edition: req.body.edition,
-    phone: req.body.phone,
-    email: req.body.email,
-    time: req.body.time,
-    hostel: req.body.hostel,
-    room: req.body.room
-  });
-  book.save();
-  User.findOne({
-    username: user
-  }, function(err, foundUser) {
-    foundUser.books.push(book);
-    foundUser.save();
-    res.redirect("/dashboard/" + user);
-  });
-
-
-});
-
-//this redirects to the page of full details of a specific book
-app.get("/bookd/:bookid", function(req, res) {
-  const bookid = req.params.bookid;
-  Book.findOne({
-    _id: bookid
-  }, function(err, foundBook) {
-    if (!err) {
-      res.render("bookd", {
-        bookname: foundBook.bookname,
-        sellp: foundBook.sellp,
-        name: foundBook.name,
-        bookdetails: foundBook.bookd,
-        contact: foundBook.contact,
-        subject: foundBook.name,
-        year: foundBook.year,
-        condition: foundBook.condition,
-        edition: foundBook.edition,
-        phone: foundBook.phone,
-        email: foundBook.email,
-        hostel: foundBook.hostel,
-        room: foundBook.room,
-        time: foundBook.time
-      });
-    }
-  });
-});
-
-//this redirects to the page of full details of a specific book after signing up
-app.get("/bookdB/:user/:bookid", function(req, res) {
-  const user = req.params.user;
-  const bookid = req.params.bookid;
-  Book.findOne({
-    _id: bookid
-  }, function(err, foundBook) {
-    if (!err) {
-      res.render("bookdB", {
-        user: user,
-        bookname: foundBook.bookname,
-        sellp: foundBook.sellp,
-        name: foundBook.name,
-        bookdetails: foundBook.bookd,
-        contact: foundBook.contact,
-        subject: foundBook.name,
-        year: foundBook.year,
-        condition: foundBook.condition,
-        edition: foundBook.edition,
-        phone: foundBook.phone,
-        email: foundBook.email,
-        hostel: foundBook.hostel,
-        room: foundBook.room,
-        time: foundBook.time
-      });
-    }
-  });
-});
-
 //this redirects to the page of full details of a specific product
-app.get("/otherd/:itemid", function(req, res) {
+app.get("/productd/:itemid", function(req, res) {
   const itemid = req.params.itemid;
   Item.findOne({
     _id: itemid
   }, function(err, foundItem) {
     if (!err) {
-      res.render("otherd", {
+      res.render("productd", {
         pname: foundItem.pname,
         sellp: foundItem.sellp,
         name: foundItem.name,
@@ -483,14 +289,14 @@ app.get("/otherd/:itemid", function(req, res) {
 });
 
 //this redirects to the page of full details of a specific product after signing up
-app.get("/otherdB/:user/:itemid", function(req, res) {
+app.get("/productdB/:user/:itemid", function(req, res) {
   const user = req.params.user;
   const itemid = req.params.itemid;
   Item.findOne({
     _id: itemid
   }, function(err, foundItem) {
     if (!err) {
-      res.render("otherdB", {
+      res.render("productdB", {
         user: user,
         pname: foundItem.pname,
         sellp: foundItem.sellp,
