@@ -20,6 +20,7 @@ app.use(express.static("public"));
 mongoose.connect("mongodb://127.0.0.1:27017/projectDB", {
   useNewUrlParser: true
 });
+
 // main page
 app.get("/", function(req, res) {
   res.render("index");
@@ -111,6 +112,7 @@ app.post("/signup", function(req, res) {
     }
   });
 });
+
 //login page
 app.get("/login", function(req, res) {
   res.render("login");
@@ -133,7 +135,6 @@ app.post("/login", function(req, res) {
 });
 
 //user home page
-
 app.get("/index/:user", function(req, res) {
   const user = req.params.user;
   User.findOne({
@@ -172,6 +173,7 @@ app.get("/books", function(req, res) {
     }
   });
 });
+
 //the buy page after signing up: shows all the books available
 app.get("/books/:user", function(req, res) {
   Book.find({}, function(err, foundBooks) {
@@ -195,6 +197,7 @@ app.get("/books/:user", function(req, res) {
     }
   });
 });
+
 //the other products buy page: show all the products except books
 app.get("/others", function(req, res) {
   Item.find({}, function(err, foundItems) {
@@ -218,6 +221,7 @@ app.get("/others", function(req, res) {
     }
   });
 });
+
 //the other products buy page after signing up: show all the products except books
 app.get("/others/:user", function(req, res) {
   Item.find({}, function(err, foundItems) {
@@ -241,6 +245,7 @@ app.get("/others/:user", function(req, res) {
     }
   });
 });
+
 //the dashboard: shows all the products of the user put up for sale
 app.get("/dashboard/:user", function(req, res) {
   const user = req.params.user;
@@ -256,6 +261,7 @@ app.get("/dashboard/:user", function(req, res) {
     }
   });
 });
+
 //this deletes books
 app.post("/delete/:user", function(req, res) {
   const checkedItemId = req.body.checkbox;
@@ -283,6 +289,7 @@ app.post("/delete/:user", function(req, res) {
       }
     });
 });
+
 //this deletes the other products
 app.post("/deleteo/:user", function(req, res) {
   const checkedItemId = req.body.checkbox;
@@ -310,7 +317,6 @@ app.post("/deleteo/:user", function(req, res) {
       }
     });
 });
-
 
 //this is the add page for other products
 app.get("/addother/:user", function(req, res) {
@@ -449,6 +455,7 @@ app.get("/bookdB/:user/:bookid", function(req, res) {
     }
   });
 });
+
 //this redirects to the page of full details of a specific product
 app.get("/otherd/:itemid", function(req, res) {
   const itemid = req.params.itemid;
@@ -474,6 +481,7 @@ app.get("/otherd/:itemid", function(req, res) {
 
   });
 });
+
 //this redirects to the page of full details of a specific product after signing up
 app.get("/otherdB/:user/:itemid", function(req, res) {
   const user = req.params.user;
