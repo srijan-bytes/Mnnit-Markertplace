@@ -5,9 +5,51 @@ const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const _ = require("lodash");
 const mongoose = require('mongoose');
-
 const app = express();
 var favicon = require('serve-favicon');
+var cloudinary = require('cloudinary').v2;
+const fileupload = require('express-fileupload');
+
+cloudinary.config({ 
+  cloud_name: 'dycpksgkp', 
+  api_key: '163257742582485', 
+  api_secret: 'onuP35l-P8rB6iU6sYLMj6GzSmI',
+  secure: true
+});
+app.use(fileupload({
+  useTempFiles:true,
+}));
+// const multer =  require('multer');
+
+// var multer  = require('multer');
+ 
+// var storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//       cb(null, './public/uploads/')
+//     },
+//     filename: function (req, file, cb) {
+//       cb(null, Date.now()+file.originalname)
+//     }
+//   })
+ 
+//   const fileFilter=(req, file, cb)=>{
+//    if(file.mimetype ==='image/jpeg' || file.mimetype ==='image/jpg' || file.mimetype ==='image/png'){
+//        cb(null,true);
+//    }else{
+//        cb(null, false);
+//    }
+ 
+//   }
+ 
+// var upload = multer({ 
+//     storage:storage,
+//     limits:{
+//         fileSize: 1024 * 1024 * 5
+//     },
+//     fileFilter:fileFilter
+//  }).single('image');
+ 
+
 
 app.use('/favicon.ico', express.static('/favicon.ico'));
 app.set('view engine', 'ejs');
@@ -15,7 +57,9 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+
 app.use(express.static("public"));
+
 
 mongoose.connect("mongodb://127.0.0.1:27017/projectDB", {
   useNewUrlParser: true
@@ -38,8 +82,9 @@ const itemsSchema = new mongoose.Schema({
   phone: String,
   email: String,
   hostel: String,
-  room: String
-
+  room: String,
+  imageUrl: String,
+  donation: String,
 });
 const Item = mongoose.model("Item", itemsSchema);
 
@@ -134,13 +179,13 @@ app.get("/index/:user", function(req, res) {
 
 //the products buy page: show all the products
 app.get("/products", function(req, res) {
-  Item.find({}, function(err, foundItems) {
+  Item.find({"donation":"NO"}, function(err, foundItems) {
 
     if (foundItems.length === 0) {
       console.log("No Items Added");
       res.redirect("/");
     } else {
-      Item.find({}, null, { //to sort alphabetically
+      Item.find({"donation":"NO"}, null, { //to sort alphabetically
         sort: {
           pname: 1
         }
@@ -157,13 +202,13 @@ app.get("/products", function(req, res) {
 
 //the products buy page after signing up: show all the products
 app.get("/products/:user", function(req, res) {
-  Item.find({}, function(err, foundItems) {
+  Item.find({"donation":"NO"}, function(err, foundItems) {
 
     if (foundItems.length === 0) {
       console.log("No Items Added");
       res.redirect("/");
     } else {
-      Item.find({}, null, { //to sort alphabetically
+      Item.find({"donation":"NO"}, null, { //to sort alphabetically
         sort: {
           pname: 1
         }
@@ -236,8 +281,12 @@ app.get("/addproduct/:user", function(req, res) {
   });
 });
 
+  
 app.post("/addproduct/:user", function(req, res) {
-  const user = req.params.user;
+  const file = req.files.image;
+  cloudinary.uploader.upload(file.tempFilePath,(err,result)=>{
+    console.log(result);
+    const user = req.params.user;
   const item = new Item({
     pname: req.body.pname,
     sellp: req.body.sellp,
@@ -250,17 +299,24 @@ app.post("/addproduct/:user", function(req, res) {
     email: req.body.email,
     time: req.body.time,
     hostel: req.body.hostel,
-    room: req.body.room
-  });
+    room: req.body.room,
+    imageUrl: result.url,
+    donation: req.body.donation,
+    });
+  
   item.save();
   User.findOne({
     username: user
   }, function(err, foundUser) {
     foundUser.items.push(item);
     foundUser.save();
+    console.log(err);
     res.redirect("/dashboard/" + user);
   });
+  })
+  
 });
+
 
 //this redirects to the page of full details of a specific product
 app.get("/productd/:itemid", function(req, res) {
@@ -281,7 +337,8 @@ app.get("/productd/:itemid", function(req, res) {
         email: foundItem.email,
         time: foundItem.time,
         hostel: foundItem.hostel,
-        room: foundItem.room
+        room: foundItem.room,
+        imageUrl: foundItem.imageUrl,
       });
     }
 
@@ -309,25 +366,60 @@ app.get("/productdB/:user/:itemid", function(req, res) {
         email: foundItem.email,
         time: foundItem.time,
         hostel: foundItem.hostel,
-        room: foundItem.room
+        room: foundItem.room,
+        imageUrl: foundItem.imageUrl,
       });
     }
 
   });
 });
 
-//book info
-app.get("/info", function(req, res) {
-  res.render("info");
-});
+//donations page without signup
+app.get("/donations", function(req, res) {
+  Item.find({"donation":"YES"}, function(err, foundItems) {
 
-//book info page after signing up
-app.get("/info/:user", function(req, res) {
-  res.render("infoB", {
-    user: req.params.user
+    if (foundItems.length === 0) {
+      console.log("No Items Added");
+      res.redirect("/");
+    } else {
+      Item.find({"donation": "YES"}, null, { //to sort alphabetically
+        sort: {
+          pname: 1
+        }
+      }, function(err, foundItems) {
+        if (!err) {
+          res.render("donations", {
+            newItems: foundItems
+          });
+        }
+      });
+    }
   });
 });
 
+//donations page after signing up: show all the products
+app.get("/donations/:user", function(req, res) {
+  Item.find({"donation": "YES"}, function(err, foundItems) {
+
+    if (foundItems.length === 0) {
+      console.log("No Items Added");
+      res.redirect("/");
+    } else {
+      Item.find({"donation": "YES"}, null, { //to sort alphabetically
+        sort: {
+          pname: 1
+        }
+      }, function(err, foundItems) {
+        if (!err) {
+          res.render("donationsB", {
+            user: req.params.user,
+            newItems: foundItems
+          });
+        }
+      });
+    }
+  });
+});
 //contact us
 app.get("/contact", function(req, res) {
   res.render("contact");
