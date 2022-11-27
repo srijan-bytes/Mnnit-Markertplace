@@ -1,5 +1,18 @@
 <%- include("partials/headerB") -%>
 <!-- form of other product -->
+<script>
+  function text(x) {
+    if(x == 0) document.getElementById("sellp").style.display = "block";
+    else document.getElementById("sellp").style.display = "none";
+    return;
+  }
+  
+  function add() {
+
+  alert("Item Added! Thank You!");
+  };
+
+</script>
 <section id="title">
   <div class="row container-fluid">
 
@@ -9,13 +22,24 @@
     </div>
     <div class="col-lg-6">
 
-      <form action="/addproduct/<%=user%>" method="post">
+      <form action="/addproduct/<%=user%>" method="post" enctype="multipart/form-data">
         <div class="form-group ">
           <div class="label">Product Name</div>
           <input class="form-control" type="text" name="pname" placeholder="Product name">
+          <div class="label">Would you like to donate this product?</div>
+          <div>
+            <input type="radio" id="yes" name="donation" value="YES" onclick="text(1)">
+            <label for="yes">YES</label><br>
+            <input type="radio" id="no" name="donation" value="NO" onclick="text(0)"  checked>
+            <label for="no">NO</label><br>
+          </div>
+          <div id="sellp">
           <div class="label">Selling Price</div>
           <input class="form-control" type="text" name="sellp" placeholder="In Rs.">
-          <div class="label">Your Name</div>
+          </div>
+          <br>
+            
+        <div class="label">Your Name</div>
           <input class="form-control" type="text" name="name" placeholder="Millie Bobby Brown">
           <div class="label">ProductDetails:</div>
           <input class="form-control" type="text" name="brand" placeholder="brand if applicable">
@@ -28,16 +52,15 @@
           <input class="form-control" type="text" name="hostel" placeholder="Hostel name">
           <input class="form-control" type="text" name="room" placeholder="Room no.">
           <textarea class="form-control" name="time" >Please contact me between (add preferable time) using (add preferable mode). </textarea>
+          <br>
+          <input class="form-control" type="file" name="image">
           <button class="btn btn-dark" type="submit" name="button" onclick="add()">Add</button>
+          
+          
         </div>
 
       </form>
     </div>
-    <script>
-      function add() {
-        alert("Item Added! Thank You!");
-      }
-    </script>
 
 </section>
 <%- include("partials/footer") -%>

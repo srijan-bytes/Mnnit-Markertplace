@@ -11,12 +11,13 @@
         <div class="card ">
           <div class="card-header">
             <input type="checkbox" name="checkbox" value="<%=item._id%>" onchange="this.form.submit()" onclick="del()">
+            <label>Delete</label>
             <h3><%=item.pname%></h3>
           </div>
           <div class="card-body">
             <h2>Rs. <%=item.sellp%> </h2>
             <p>Seller Name: <%=item.name%></p>
-            <button type="button" class="btn btn-outline-dark"><a href="/otherdB/<%=user%>/<%=item.id%>" class="know">Know More</a></button>
+            <button type="button" class="btn btn-outline-dark"><a href="/productdB/<%=user%>/<%=item.id%>" class="know">Know More</a></button>
           </div>
         </div>
       </form>
