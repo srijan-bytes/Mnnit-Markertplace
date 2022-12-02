@@ -348,6 +348,14 @@ app.get("/productd/:itemid", function(req, res) {
 //this redirects to the page of full details of a specific product after signing up
 app.get("/productdB/:user/:itemid", function(req, res) {
   const user = req.params.user;
+  var userMail = "";
+  var q = User.findOne({username: user},async function(err, foundItem) {
+    if(!err) {
+      console.log(foundItem.email);
+      userMail = await foundItem.email;
+    }
+  });
+  console.log(userMail+"YO");
   const itemid = req.params.itemid;
   Item.findOne({
     _id: itemid
@@ -355,6 +363,7 @@ app.get("/productdB/:user/:itemid", function(req, res) {
     if (!err) {
       res.render("productdB", {
         user: user,
+        usermail: user.email,
         pname: foundItem.pname,
         sellp: foundItem.sellp,
         name: foundItem.name,
@@ -456,6 +465,7 @@ app.post("/contact/:user", function(req, res) {
   mail.save();
   res.redirect("/contact/" + user);
 });
+
 
 //server
 app.listen(3000, function() {

@@ -8,8 +8,8 @@
   }
   
   function add() {
-
-  alert("Item Added! Thank You!");
+    // if(document.getElementById("pname")
+  // alert("Item Added! Thank You!");
   };
 
 </script>
@@ -25,7 +25,7 @@
       <form action="/addproduct/<%=user%>" method="post" enctype="multipart/form-data">
         <div class="form-group ">
           <div class="label">Product Name</div>
-          <input class="form-control" type="text" name="pname" placeholder="Product name">
+          <input class="form-control" type="text" name="pname" placeholder="Product name" required>
           <div class="label">Would you like to donate this product?</div>
           <div>
             <input type="radio" id="yes" name="donation" value="YES" onclick="text(1)">
@@ -35,11 +35,11 @@
           </div>
           <div id="sellp">
           <div class="label">Selling Price</div>
-          <input class="form-control" type="text" name="sellp" placeholder="In Rs.">
+          <input class="form-control" type="number" name="sellp" placeholder="In Rs." value="0">
           </div>
           <br>
             
-        <div class="label">Your Name</div>
+          <div class="label">Your Name</div>
           <input class="form-control" type="text" name="name" placeholder="Millie Bobby Brown">
           <div class="label">ProductDetails:</div>
           <input class="form-control" type="text" name="brand" placeholder="brand if applicable">
@@ -53,7 +53,7 @@
           <input class="form-control" type="text" name="room" placeholder="Room no.">
           <textarea class="form-control" name="time" >Please contact me between (add preferable time) using (add preferable mode). </textarea>
           <br>
-          <input class="form-control" type="file" name="image">
+          <input class="form-control" type="file" name="image" required>
           <button class="btn btn-dark" type="submit" name="button" onclick="add()">Add</button>
           
           

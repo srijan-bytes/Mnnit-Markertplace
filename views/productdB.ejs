@@ -1,43 +1,77 @@
 <%- include("partials/headerB") -%>
-<!-- details of other products -->
-<section id="list">
-  
-  <div class="row" style="display:flex;">
-    <div class="column" style="flex:50%;">
-      <div class="image-block" style="margin: 20px;">
-        <img src= <%=imageUrl%> alt="Product Image" class="w3-image" style="width:200%;max-width:800px">
-      </div>
-      
-    </div>
-    <div class="column" style="flex:50%;">
-      <div class="container-fluid">
-        <h2><%=pname%> Rs. <%=sellp%></h2>
-        <p>
-         
-          Seller Name: <%=name%><br><br><br>
-          <%=pname%> Details: <br />
-          1. Brand: <%=brand%><br>
-          2. Year: <%=year%><br>
-          3. Condition: <%=condition%><br>
-          4. Others: <%=others%><br><br>
-          Seller Details:<br>
-          1. Phone No: <%=phone%><br />
-          2. EmailId: <%=email%><br>
-          3. Hostel name : <%=hostel%><br>
-          4. Room No: <%=room%><br>
-          5. More: <%=time%><br />
-        
-          
-        </p>
-    
-          <button type="button" class="btn btn-outline-dark"><a href="/products/<%=user%>" class="know" >Go Back</a></button>
-      </div>
-    </div>
-  </div>
-    
-    
-</div>
+  <!-- details of other products -->
+  <script src="https://smtpjs.com/v3/smtp.js">
+  </script>
+  <script>
+    // var btn = document.getElementById('interested_button');
+    // btn.addEventListener('click')
+    function interested() {
+      alert("Seller Identified <%=email%>");
+      var sender = "<%=usermail%>";
+      var receiver = '<%=email%>';
+      Email.send({
+        Host: "smtp.elasticemail.com",
+        Username: "srijansaxena20@gmail.com",
+        Password: "15CD545DF151C3FB5EF909AAEDFE3155710A",
+        To : document.getElementById('sender').value,
+        From : document.getElementById('receiver').value,
+        Subject: "This is the subject",
+        Body: "And this is the body"
+      }).then(
+        message => alert(message)
 
-  
-</section>
-<%- include("partials/footer") -%>
+      );
+      
+      // var btn = document.getElementById('interested_button');
+      // btn.disabled = true;
+    }
+  </script>
+  <section id="list">
+
+    <div class="row" style="display:flex;">
+      <div class="column" style="flex:50%;">
+        <div class="image-block" style="margin: 20px;">
+          <img src=<%=imageUrl%> alt="Product Image" class="w3-image" style="width:200%;max-width:800px">
+        </div>
+
+      </div>
+      <div class="column" style="flex:50%;">
+        <div class="container-fluid">
+          <h2>
+            <%=pname%>
+          </h2><br>
+          <h2>Rs. <%=sellp%>
+          </h2>
+          <p>
+
+            Seller Name: <%=name%><br><br><br>
+              <%=pname%> Details: <br />
+                1. Brand: <%=brand%><br>
+                  2. Year: <%=year%><br>
+                    3. Condition: <%=condition%><br>
+                      4. Others: <%=others%><br><br>
+                        Seller Details:<br>
+                        1. Phone No: <%=phone%><br />
+                          2. EmailId: <%=email%><br>
+                            3. Hostel name : <%=hostel%><br>
+                              4. Room No: <%=room%><br>
+                                5. More: <%=time%><br />
+
+
+          </p>
+          <a id="receiver"><%=email%></a>
+          <br>
+          <a id="sender"><%=usermail%></a>
+          <button type="button" class="btn btn-outline-dark" id="interested_button" onclick="interested()">Interested</button>
+          <button type="button" class="btn btn-outline-dark"><a href="/products/<%=user%>" class="know">Go
+              Back</a></button>
+        </div>
+      </div>
+    </div>
+
+
+    </div>
+
+
+  </section>
+  <%- include("partials/footer") -%>

@@ -1,13 +1,20 @@
 <%- include("partials/header") -%>
 <!-- boxes of other products -->
+<div style="margin: 10px;">
+  <p>
+    This Page Contains All The Items Donated By Your Fellow MNNITians!!!
+  </p>
+</div>
 <section id="pricing" class="container-fluid">
   <div class="row">
+    
       <%newItems.forEach(function(item){%>
     <div class="pricing-column col-lg-4 col-md-6">
       <div class="card ">
         <div class="card-header">
           <h3><%=item.pname%></h3>
         </div>
+        
         <div class="card-body">
           <h2>Rs. <%=item.sellp%> </h2>
           <p>Seller Name: <%=item.name%></p>

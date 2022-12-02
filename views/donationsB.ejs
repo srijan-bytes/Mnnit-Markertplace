@@ -14,12 +14,10 @@
     }
 
 .image img{
+  border-radius: 0.5rem 0.5rem 0 0;
   width: 100%;
-  border-top-right-radius: 5px;
-  border-top-left-radius: 5px;
-  
-
- 
+  object-fit: cover;
+  aspect-ratio: 4/3;
  }
 
 .title{
@@ -55,7 +53,13 @@ button:hover{
   transition: .5s;
   cursor: pointer;
 }
+
 </style>
+<div style="margin: 10px;">
+  <p>
+    This Page Contains All The Items Donated By Your Fellow MNNITians!!!
+  </p>
+</div>
 <section id="pricing" class="container-fluid">
   <div class="main">
       <%newItems.forEach(function(item){%>
@@ -68,9 +72,10 @@ button:hover{
           <img src= <%=item.imageUrl%>>
         </div>
         <div class="des">
-          <h2>Rs. <%=item.sellp%> </h2>
-          <p>Seller Name: <%=item.name%></p>
-          <button type="button" class="btn btn-outline-dark"><a href="/productdB/<%=user%>/<%=item._id%>" class="know" >Know More</a></button>
+          <p> <p style="font-size: larger; font-weight: 600;">Donated By:</p> <%=item.name%></p>
+          <div style="margin-left: 10%;">
+            <button type="button" class="btn btn-outline-dark"><a href="/productdB/<%=user%>/<%=item._id%>" class="know" >Know More</a></button>
+          </div>
         </div>
       </div>
     
